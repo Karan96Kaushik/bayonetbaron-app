@@ -4,6 +4,7 @@ import { useSpring, animated } from 'react-spring';
 import { Code, Layout, Users } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
+import { Link } from 'react-router-dom';
 
 const FeatureCard = ({ icon: Icon, title, description }) => {
   const props = useSpring({
@@ -74,9 +75,9 @@ const Home = () => {
       <Card className="text-center p-8">
         <h2 className="text-2xl font-bold mb-4">Ready to elevate your online presence?</h2>
         <p className="mb-6">Let's collaborate to create the perfect digital solution for your business.</p>
-        <Button onClick={() => window.location.href='/projects'}>
-          View Our Projects
-        </Button>
+        <Link to="/projects">
+          <Button>View Our Projects</Button>
+        </Link>
       </Card>
     </div>
   );

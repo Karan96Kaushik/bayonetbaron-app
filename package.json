@@ -16,6 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "deployprod": "npm run build && zip -r dist.zip build && scp dist.zip the-bear:/home/ubuntu/bayonetbaron-app/ && ssh the-bear -t \"cd bayonetbaron-app && rm -r build/ && unzip dist.zip\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
