@@ -55,14 +55,14 @@ const Contact = () => {
         Contact <span className="text-brown dark:text-taupe">Us</span>
       </animated.h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <animated.div style={cardProps}>
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
+        {/* <animated.div style={cardProps}>
           <Card title="Get in Touch">
             <ContactInfo icon={Mail} title="Email" content="contact@bayonetbaron.tech" />
             <ContactInfo icon={Phone} title="Phone" content="(123) 456-7890" />
             <ContactInfo icon={MapPin} title="Address" content="123 Tech Street, Cyber City, 12345" />
           </Card>
-        </animated.div>
+        </animated.div> */}
 
         <animated.div style={cardProps}>
           <Card title="Send us a Message">

@@ -20,9 +20,9 @@ const ProjectCard = ({ icon: Icon, title, description, link }) => {
           <h3 className="text-xl font-semibold">{title}</h3>
         </div>
         <p className="flex-grow mb-4">{description}</p>
-        <Button onClick={() => window.open(link, '_blank')}>
+        {/* <Button onClick={() => window.open(link, '_blank')}>
           View Project
-        </Button>
+        </Button> */}
       </Card>
     </animated.div>
   );
@@ -38,20 +38,20 @@ const Projects = () => {
   const projects = [
     { 
       icon: Code,
-      title: "CRM System for Tech Startup", 
+      title: "CRM System for Startups", 
       description: "A custom CRM solution designed to streamline customer management and boost sales efficiency.",
       link: "#"
     },
     { 
       icon: Layout,
-      title: "E-commerce Landing Page", 
-      description: "High-converting landing page for a new product launch, resulting in a 200% increase in conversions.",
+      title: "Company Landing Pages", 
+      description: "High-converting landing pages for products, services, and more.",
       link: "#"
     },
     { 
       icon: Shield,
       title: "Secure Client Portal", 
-      description: "Developed a secure client portal for a financial services company, ensuring data protection and ease of use.",
+      description: "Secure client portal for a financial services company, ensuring data protection and ease of use.",
       link: "#"
     },
   ];

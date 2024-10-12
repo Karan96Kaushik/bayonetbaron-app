@@ -1,10 +1,77 @@
 // src/pages/Home.js
-import React from 'react';
-import { useSpring, animated } from 'react-spring';
+import React, { useState, useEffect } from 'react';
+import { useTrail, animated, useSpring } from 'react-spring';
 import { Code, Layout, Users } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { Link } from 'react-router-dom';
+
+// New Firework component
+const Particle = ({ x, y, angle, speed, size, color }) => {
+  const props = useSpring({
+    from: { translateX: 0, translateY: 0, opacity: 1, scale: 1 },
+    to: async (next) => {
+      await next({ translateX: Math.cos(angle) * speed * 200, translateY: Math.sin(angle) * speed * 200, opacity: 0.8, scale: 0.8, config: { duration: 3000 } });
+      await next({ translateX: Math.cos(angle) * speed * 300, translateY: Math.sin(angle) * speed * 300 + 100, opacity: 0, scale: 0, config: { duration: 6000 } });
+    },
+    config: { mass: 1, tension: 120, friction: 10 },
+  });
+
+  return (
+    <animated.div
+      style={{
+        position: 'fixed',
+        left: x,
+        top: y,
+        width: size,
+        height: size,
+        backgroundColor: color,
+        borderRadius: '50%',
+        pointerEvents: 'none',
+        zIndex: 1,
+        transform: props.translateX.to((x, y, s) => `translate(${x}px, ${y}px) scale(${s})`),
+        opacity: props.opacity,
+        boxShadow: `0 0 ${size * 3}px ${size}px ${color}`,
+      }}
+    />
+  );
+};
+
+const Firework = ({ x, y }) => {
+  const [particles, setParticles] = useState([]);
+  const [position, setPosition] = useState({ x, y }); 
+
+  useEffect(() => {
+    const particleCount = 80;
+    const newParticles = Array.from({ length: particleCount }).map(() => {
+      const angle = Math.random() * Math.PI * 2;
+      const initialDistance = Math.random() * 150; // Random initial distance up to 50px
+      return {
+        x: position.x + Math.cos(angle) * initialDistance,
+        y: position.y + Math.sin(angle) * initialDistance,
+        angle: Math.random() * Math.PI * 2,
+        speed: 2 + Math.random() * 40,
+        size: 2 + Math.random() * 30,
+        color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+      };
+    });
+    setParticles(newParticles);
+
+    const timer = setTimeout(() => {
+      setParticles([]);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [position]);
+
+  return (
+    <>
+      {particles.map((particle, index) => (
+        <Particle key={index} {...particle} />
+      ))}
+    </>
+  );
+};
 
 const FeatureCard = ({ icon: Icon, title, description }) => {
   const props = useSpring({
@@ -25,6 +92,27 @@ const FeatureCard = ({ icon: Icon, title, description }) => {
 };
 
 const Home = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  // const [showFirework, setShowFirework] = useState(false);
+
+  // useEffect(() => {
+  //   const handleMouseMove = (event) => {
+  //     setMousePosition({ x: event.clientX, y: event.clientY });
+  //   };
+
+  //   window.addEventListener('mousemove', handleMouseMove);
+
+  //   const fireworkInterval = setInterval(() => {
+  //     setShowFirework(true);
+  //     setTimeout(() => setShowFirework(false), 10);
+  //   }, 30);
+
+  //   return () => {
+  //     window.removeEventListener('mousemove', handleMouseMove);
+  //     clearInterval(fireworkInterval);
+  //   };
+  // }, []);
+
   const titleProps = useSpring({
     opacity: 1,
     transform: 'translateY(0)',
@@ -39,7 +127,11 @@ const Home = () => {
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto px-4 relative">
+      {/* {showFirework && (
+        <Firework x={mousePosition.x} y={mousePosition.y} />
+      )} */}
+      
       <div className="text-center mb-16">
         <animated.h1 style={titleProps} className="text-4xl md:text-6xl font-bold mb-4">
           Welcome to <span className="text-brown dark:text-taupe">BayonetBaron.tech</span>
